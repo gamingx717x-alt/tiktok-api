@@ -9,14 +9,18 @@ let browser;
 
 // Launch Puppeteer once at startup
 (async () => {
-  browser = await puppeteer.launch({
-    executablePath: await chromium.executablePath(),
-    headless: chromium.headless,
-    args: chromium.args,
-  });
-  console.log('✅ Puppeteer browser launched');
-})();
-
+browser = await puppeteer.launch({
+  executablePath: await chromium.executablePath() || '/usr/bin/google-chrome',
+  headless: true,
+  args: [
+    ...chromium.args,
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--single-process',
+    '--no-zygote'
+  ]
+});
 // Helper: Check one username
 async function checkUsername(username, page) {
   try {
@@ -102,3 +106,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 API running on port ${PORT}`);
 });
+
