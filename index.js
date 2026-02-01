@@ -54,7 +54,7 @@ app.post('/check', async (req, res) => {
     const page = await browser.newPage();
     const result = await Promise.race([
       checkUsername(username.trim(), page),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), 23000)),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Request timeout')), 45000)),
     ]);
     await page.close();
     res.json(result);
@@ -106,4 +106,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 API running on port ${PORT}`);
 });
+
 
